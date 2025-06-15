@@ -44,3 +44,21 @@ export const updateMemberHandler = async (memberId: string, data: any) => {
     memberId: memberId,
   };
 };
+
+export const getMemberHandler = async (memberId: string) => {
+  const member = await Member.findOne({ memberId }).exec();
+  if (!member) {
+    return { success: false, message: "Member not found" };
+  }
+  return { success: true, member };
+};
+
+export const getAllMembersHandler = async () => {
+  const members = await Member.find().exec();
+  return { success: true, members };
+};
+
+export const deleteMemberHandler = async (memberId: string) => {
+  const deletedMember = await Member.deleteOne({ memberId }).exec();
+  if (deletedMember?.deletedCount === 0) return;
+};

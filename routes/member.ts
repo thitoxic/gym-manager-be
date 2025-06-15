@@ -1,7 +1,11 @@
 import { StatusCodes } from "../constants/constants";
 import express from "express";
 import { Request, Response } from "express";
-import { createMemberHandler, updateMemberHandler } from "../middleware/member";
+import {
+  createMemberHandler,
+  getAllMembersHandler,
+  updateMemberHandler,
+} from "../middleware/member";
 import { memberRequiredFields } from "../types/member";
 import Member from "../models/member";
 
@@ -76,3 +80,24 @@ router.patch(
 );
 
 export default router;
+
+router.get("/members/list", async (res: Response) => {
+  try {
+    const { success, members } = await getAllMembersHandler();
+    if (success) {
+      return res.status(StatusCodes.OK).send({
+        status: StatusCodes.OK,
+        members,
+      });
+    }
+    return res.status(StatusCodes.BAD_REQUEST).send({
+      status: StatusCodes.BAD_REQUEST,
+      message: "Failed to get members",
+    });
+  } catch (error) {
+    return res.status(StatusCodes.SERVER_ERROR).send({
+      status: StatusCodes.SERVER_ERROR,
+      message: "Internal server error!",
+    });
+  }
+});
