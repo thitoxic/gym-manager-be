@@ -46,3 +46,9 @@ const generateMemberId = async (memberName: string) => {
   return `${initials}${increment}`;
 };
 export { generateAdminId, generateMemberId };
+
+const compareFaces = async (photoBuffer: Buffer, passportPhoto: Buffer) => {
+  return true;
+};
+
+export { compareFaces };

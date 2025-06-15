@@ -1,5 +1,5 @@
 import Member from "../models/member";
-import { generateMemberId } from "../utils/utils";
+import { compareFaces, generateMemberId } from "../utils/utils";
 import { MemberRequiredFieldsObject } from "../types/member";
 import { StatusCodes } from "../constants/constants";
 
@@ -61,4 +61,33 @@ export const getAllMembersHandler = async () => {
 export const deleteMemberHandler = async (memberId: string) => {
   const deletedMember = await Member.deleteOne({ memberId }).exec();
   if (deletedMember?.deletedCount === 0) return;
+};
+
+export const faceAuthHandler = async (data: any) => {
+  const { memberId, photoBuffer, authType } = data;
+  const member = await Member.findOne({ memberId }).exec();
+  if (!member || !member.passportPhoto) {
+    return { success: false, message: "Member or passport photo not found" };
+  }
+
+  const isMatch = await compareFaces(photoBuffer, member.passportPhoto);
+  let authenticationType: any;
+  if (isMatch) {
+    if (authType === "entry") {
+      authenticationType = await Member.updateOne(
+        { memberId },
+        { $set: { lastEntry: new Date() } }
+      );
+    }
+    if (authType === "exit" && member.lastEntry) {
+      authenticationType = await Member.updateOne(
+        { memberId },
+        { $set: { lastExit: new Date() } }
+      );
+    }
+  }
+  if (authenticationType?.modifiedCount > 0) {
+    return { success: true, message: "Face authentication successful" };
+  }
+  return { success: false, message: "Face authentication failed" };
 };

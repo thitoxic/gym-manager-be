@@ -78,6 +78,10 @@ const memberSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    passportPhoto: {
+      type: Buffer,
+      required: false,
+    },
   },
   { timestamps: true }
 );
