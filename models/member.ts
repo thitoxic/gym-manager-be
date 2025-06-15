@@ -4,7 +4,7 @@ const memberSchema = new mongoose.Schema(
   {
     memberId: {
       type: String,
-      required: true,
+      required: false,
     },
     fullName: {
       type: String,
@@ -15,7 +15,7 @@ const memberSchema = new mongoose.Schema(
       required: true,
     },
     email: {
-      type: Number,
+      type: String,
       required: false,
     },
     gender: {
@@ -56,23 +56,23 @@ const memberSchema = new mongoose.Schema(
     },
     lastEntry: {
       type: Date,
-      required: true,
+      required: false,
     },
     lastExit: {
       type: Date,
-      required: true,
+      required: false,
     },
     totalDaysPresent: {
       type: Number,
-      required: true,
+      required: false,
     },
     alertSentForRenewal: {
       type: Boolean,
-      required: true,
+      required: false,
     },
     alertSentForAbsence: {
       type: Boolean,
-      required: true,
+      required: false,
     },
     medicalConditions: {
       type: String,

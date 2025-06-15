@@ -1,6 +1,7 @@
 import Admin from "../models/admin";
+import Member from "../models/member";
 
-const generateAdminId = async (gymName) => {
+const generateAdminId = async (gymName: string) => {
   const initials = gymName
     .split(" ")
     .map((word) => word[0].toUpperCase())
@@ -19,4 +20,29 @@ const generateAdminId = async (gymName) => {
 
   return `${initials}${increment}`;
 };
-export { generateAdminId };
+
+const generateMemberId = async (memberName: string) => {
+  const initials = memberName
+    .split(" ")
+    .map((word) => word[0].toUpperCase())
+    .join("");
+
+  const allMembers = await Member.find({
+    memberId: { $regex: /[A-Z]+\d+$/ },
+  }).exec();
+
+  let maxNumber = 0;
+  allMembers.forEach((member) => {
+    const match = member?.memberId?.match(/\d+$/);
+    if (match) {
+      const num = parseInt(match[0], 10);
+      if (!isNaN(num) && num > maxNumber) {
+        maxNumber = num;
+      }
+    }
+  });
+
+  const increment = maxNumber + 1;
+  return `${initials}${increment}`;
+};
+export { generateAdminId, generateMemberId };
