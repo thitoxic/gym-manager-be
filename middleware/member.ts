@@ -1,6 +1,7 @@
 import Member from "../models/member";
 import { generateMemberId } from "../utils/utils";
 import { MemberRequiredFieldsObject } from "../types/member";
+import { StatusCodes } from "../constants/constants";
 
 export const createMemberHandler = async (data: MemberRequiredFieldsObject) => {
   const member = await Member.findOne({ phone: data.phone }).exec();
@@ -22,4 +23,24 @@ export const createMemberHandler = async (data: MemberRequiredFieldsObject) => {
     console.log("err", err);
     return { success: false, message: "Error creating member" };
   }
+};
+
+export const updateMemberHandler = async (memberId: string, data: any) => {
+  const updatedMember = await Member.updateOne(
+    { memberId },
+    { $set: data },
+    { new: true }
+  );
+  if (updatedMember?.modifiedCount === 0) return;
+  if (!updatedMember) {
+    return {
+      success: false,
+      message: "Member not found",
+    };
+  }
+  return {
+    success: true,
+    message: "Member updated",
+    memberId: memberId,
+  };
 };
