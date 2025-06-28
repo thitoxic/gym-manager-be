@@ -126,9 +126,7 @@ router.post(
     try {
       const { memberId, authType } = req.body;
       const photoBuffer = req.file?.buffer;
-      console.log("req.file", req.file);
-      console.log("memberId", memberId);
-      console.log("photoBuffer", photoBuffer);
+
       if (!memberId || !photoBuffer) {
         return res
           .status(400)
