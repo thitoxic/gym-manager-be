@@ -4,10 +4,13 @@ const app = express();
 const PORT = 3000;
 import authRoute from "./routes/auth";
 import memberRoute from "./routes/member";
+import messageRoute from "./routes/message";
 
 app.use(express.json());
 app.use("/api", authRoute);
 app.use("/api", memberRoute);
+app.use("/api", messageRoute);
+
 mongoose
   .connect("mongodb://localhost:27017/gym-management")
   .then(() => {

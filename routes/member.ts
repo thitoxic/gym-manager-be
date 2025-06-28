@@ -96,8 +96,6 @@ router.patch(
   }
 );
 
-export default router;
-
 router.get("/members/list", async (res: Response) => {
   try {
     const { success, members } = await getAllMembersHandler();
@@ -145,3 +143,5 @@ router.post(
     }
   }
 );
+
+export default router;

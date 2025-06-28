@@ -5,7 +5,7 @@ import { sendSms } from "../middleware/message";
 
 const router = express.Router();
 
-router.post("/send", async (req: Request, res: Response) => {
+router.post("/sms/send", async (req: Request, res: Response) => {
   const { phone, text } = req.body;
   try {
     const { success, message } = await sendSms(phone, text);
@@ -24,3 +24,5 @@ router.post("/send", async (req: Request, res: Response) => {
       .json({ success: false, message: "Failed to send message" });
   }
 });
+
+export default router;
