@@ -129,7 +129,7 @@ router.post(
 
       if (!memberId || !photoBuffer) {
         return res
-          .status(400)
+          .status(StatusCodes.BAD_REQUEST)
           .json({ success: false, message: "Missing memberId or photo" });
       }
       const { success, message } = await faceAuthHandler({
@@ -140,7 +140,7 @@ router.post(
       return res.json({ success, message });
     } catch (error) {
       return res
-        .status(500)
+        .status(StatusCodes.SERVER_ERROR)
         .json({ success: false, message: "Internal server error" });
     }
   }
