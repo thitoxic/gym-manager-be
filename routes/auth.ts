@@ -10,7 +10,7 @@ import { Request, Response } from "express";
 
 const router = express.Router();
 
-router.post("/admin/login", async (req: Request, res: Response) => {
+router.post("/login", async (req: Request, res: Response) => {
   const { adminId, phone, password } = req.body;
   try {
     const { success } = await verifyAdminHandler({ adminId, phone, password });
@@ -33,7 +33,7 @@ router.post("/admin/login", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/admin/register", async (req: Request, res: Response) => {
+router.post("/register", async (req: Request, res: Response) => {
   const { phone, password, fullName, email } = req.body;
   if (!phone || !password || !fullName) {
     return res.status(StatusCodes.BAD_REQUEST).send({
@@ -67,7 +67,7 @@ router.post("/admin/register", async (req: Request, res: Response) => {
   }
 });
 
-router.put("/admin/update", async (req: Request, res: Response) => {
+router.put("/update", async (req: Request, res: Response) => {
   const { adminId, email, phone, fullName } = req.body;
   console.log(" req.body", req.body);
   try {
@@ -92,7 +92,7 @@ router.put("/admin/update", async (req: Request, res: Response) => {
   }
 });
 
-router.put("/admin/change-password", async (req: Request, res: Response) => {
+router.put("/change-password", async (req: Request, res: Response) => {
   const { adminId, phone, currPassword, updatedPassword } = req.body;
   try {
     const { success, message, code } = await changePasswordHandler({

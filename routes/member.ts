@@ -14,7 +14,7 @@ const upload = multer();
 const router = express.Router();
 
 router.post(
-  "/member/register",
+  "/register",
   upload.single("passportPhoto"),
   async (req: Request, res: Response) => {
     try {
@@ -58,7 +58,7 @@ router.post(
 );
 
 router.patch(
-  "/member/update/:memberId",
+  "/update/:memberId",
   upload.single("passportPhoto"),
   async (req: Request, res: Response) => {
     const memberData = { ...req.body };
@@ -96,7 +96,7 @@ router.patch(
   }
 );
 
-router.get("/members/list", async (res: Response) => {
+router.get("/list", async (res: Response) => {
   try {
     const { success, members } = await getAllMembersHandler();
     if (success) {
@@ -118,7 +118,7 @@ router.get("/members/list", async (res: Response) => {
 });
 
 router.post(
-  "/member/face-auth",
+  "/face-auth",
   upload.single("passportPhoto"),
   async (req: Request, res: Response) => {
     try {
